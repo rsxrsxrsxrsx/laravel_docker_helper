@@ -10,8 +10,5 @@ down-all:
 delete-all:
 	docker rm $(docker ps -a -q)
 
-cli:
-	docker compose exec php-cli sh
-
-cli-0:
-	docker exec -u 0 php-cli sh
+php:
+	docker compose exec app-php bash
