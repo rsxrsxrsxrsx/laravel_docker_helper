@@ -11,4 +11,4 @@ delete-all:
 	docker rm $(docker ps -a -q)
 
 php:
-	docker compose exec app-php bash
+	docker exec -it app-php bash
