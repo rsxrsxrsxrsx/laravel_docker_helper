@@ -12,3 +12,9 @@ delete-all:
 
 php:
 	docker exec -it app-php bash
+
+nginx:
+	cp docker-compose-nginx.yml docker-compose.yml
+
+swoole:
+	cp docker-compose-swoole.yml docker-compose.yml

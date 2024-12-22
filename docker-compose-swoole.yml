@@ -1,0 +1,53 @@
+version: '3.2'
+
+services:
+  php:
+    container_name: app-php
+    build:
+      context: ./docker/php-swoole
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - postgresql
+      - redis
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    restart: always
+
+  postgresql:
+    container_name: app-postgresql
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: '${DB_USERNAME:-user}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+      POSTGRES_DB: '${DB_DATABASE:-laravel}'
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - app-network
+    restart: always
+
+  redis:
+    container_name: app-redis
+    image: redis:latest
+    command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD:-secret}" ]
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    restart: always
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

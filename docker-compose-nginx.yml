@@ -16,10 +16,10 @@ services:
   php:
     container_name: app-php
     build:
-      context: ./docker/php
+      context: ./docker/php-fpm
       dockerfile: Dockerfile
     volumes:
-      - ./:/var/www/app
+      - ./:/var/www/html
     depends_on:
       - postgresql
       - redis
